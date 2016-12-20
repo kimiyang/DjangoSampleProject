@@ -15,8 +15,18 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth.models import User
+from polls.models import Question
+from rest_framework import routers, serializers, viewsets
+from polls import views
+
+router = routers.DefaultRouter()
+router.register(r'Questions', views.QuestionViewSet)
+router.register(r'Choices', views.ChoiceViewSet)
 
 urlpatterns = [
     url(r'^polls/', include('polls.urls')),
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', admin.site.urls),
 ]
